@@ -2,8 +2,7 @@ source 'https://rubygems.org'
 
   group :development do
     gem 'pry'
-    gem 'pry-debugger'
-    gem 'ruby-prof'
+    gem 'pry-byebug'
   end
 
   group :test do
