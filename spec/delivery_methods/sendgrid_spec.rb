@@ -250,8 +250,12 @@ module Mail
           subject.client.should_receive(:post).and_return(failure)
         end
 
-        it "should raise an exception" do
-          expect { subject.deliver!(mail) }.to raise_error(SendgridApi::Error::DeliveryError)
+        context "for disabled accounts" do
+          let(:failure) { SendgridApi::Result.new({error: {message: "Account Disabled"}}) }
+
+          it "should not raise an exception" do
+            expect { subject.deliver!(mail) }.not_to raise_error(SendgridApi::Error::DeliveryError)
+          end
         end
       end
     end

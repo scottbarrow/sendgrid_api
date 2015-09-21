@@ -20,7 +20,7 @@ module SendgridApi
     # @return [Boolean]
     #
     def error?
-      body_error?
+      body_error? && !account_disabled_error?
     end
 
     # Sometimes there's an error code
@@ -38,6 +38,10 @@ module SendgridApi
     end
 
     private
+
+    def account_disabled_error?
+      body[:error].select {|k,v| v =~ /Account Disabled/}
+    end
 
     def body_error?
       (body.has_key?(:error) || body.has_key?(:errors)) if body.is_a?(Hash)
